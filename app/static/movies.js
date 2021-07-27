@@ -6,11 +6,22 @@ const tableParams = {
 }
 
 const formParams = {
+    title:'Movie',
     id:'movie_id',
     route: '/movies/',
-    inputs: [{type:'text', name:'title', value: ''}, 
-             {type:'number', name:'avg_review_score', value: ''},
-             {type:'submit', value:'Add'}
+    inputs: [{attr:{
+                    type:'text', name:'title', value: '', required:'required'
+                   }
+             }, 
+             {attr:{
+                    type:'number', name:'avg_review_score', value: '', 
+                    step:0.1, min:0.0, max:10.0, required:'required'
+                   }
+             },
+             {attr:{
+                    type:'submit', value:'Add', class: 'btn-outline'
+                   }
+             }
             ]
 }
 

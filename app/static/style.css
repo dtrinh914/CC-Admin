@@ -233,161 +233,6 @@ a{
     color: inherit;
 }
 
-/* Form Errors */
-.form-errors{
-    margin-bottom: 10px;
-    border: 2px solid #c62828;
-    list-style-type: disc;
-    padding: 20px 20px 20px 30px;
-    border-radius: 5px;
-    min-width: 300px;
-    text-align: left;
-}
-
-/* Register Page */
-.register{
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-    width: 80%;
-    max-width: 600px;
-    box-shadow: var(--shadow-1);
-    margin-top: 50px;
-    padding: 45px 0;
-    padding-bottom: 70px;
-}
-
-.register__form{
-    width: 300px;
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-}
-
-.register__form label{
-    margin-bottom: 2px;
-}
-
-.register__form input{
-    margin-bottom: 15px;
-    height: 30px;
-}
-
-/* Login Page */
-.login{
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-    width: 80%;
-    max-width: 600px;
-    box-shadow: var(--shadow-1);
-    margin-top: 50px;
-    padding: 45px 0;
-    padding-bottom: 70px;
-}
-
-.login__form{
-    width: 300px;
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-}
-
-.login__form label{
-    margin-bottom: 2px;
-}
-
-.login__form input{
-    margin-bottom: 15px;
-    height: 30px;
-}
-
-/* Movie Search Page */
-.movie-search-results{
-    margin: 20px 0;
-    background: var(--light-gray)
-}
-
-.movie-search-results a{
-    color: inherit;
-}
-
-.movie-search-results a:visited{
-    color: inherit;
-}
-
-.movie-search-results__item{
-    display: flex;
-    flex-direction:column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    width: 100%;
-    max-width: 500px;
-    box-shadow: var(--shadow-1);
-    transition: all 0.5s ease;
-    padding: 20px;
-    margin: 20px 0;
-    background: white;
-}
-
-.movie-search-results__item:hover{
-    box-shadow: var(--shadow-2);
-}
-
-.movie-search-results__item img{
-    height: 400px;
-    margin-top: 20px;
-}
-
-.movie-search-pages{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.movie-search-pages ol{
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-}
-
-.movie-search-pages li{
-    margin: 0 1px;
-}
-
-/* Movie Page */
-.movie-page-info{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 90%;
-    margin: 20px 0;
-    padding: 20px;
-    box-shadow: var(--shadow-1);
-}
-
-.movie-page-info__description{
-    max-width: 600px;
-}
-
-.movie-page-info img{
-    height: 600px;
-}
-
-.movie-page-reviews{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 90%;
-    box-shadow: var(--shadow-1);
-    padding: 40px;
-    margin-bottom: 50px;
-}
-
 /* User Main Page */
 .user-section{
     display: flex;
@@ -401,117 +246,33 @@ a{
     margin-bottom: 20px;
 }
 
-/* User Watched Page */
-.user-watched-list{
-    margin-bottom: 30px;
+.admin-table{
+    margin: 20px 0;
 }
 
-.user-watched-list li{
-    margin-bottom: 10px;
-}
-
-.user-watched-title{
-    margin-left: 10px;
-    font-size: 1.2rem;
-}
-
-.user-watched-delete-btn{
-    font-size: 0.8rem;
-    padding: 2px;
+.admin-table td{
+    border: 1px solid black;
     text-align: center;
-    border-radius: 5px;
+    padding: 0 5px;
 }
 
-/* User Reviews Page */
-.user-page-reviews__item{
-    width: 90%;
+.admin-table td:last-child, td:nth-last-child(2){
+    border: none;
 }
 
-.user-page-reviews__item a{
-    font-size: 0.7rem;
+.admin-table tr:nth-child(even){
+    background: var(--light-gray);
 }
 
-.user-page-reviews article:last-of-type{
-    margin-bottom: 50px;
-}
-
-/* User Followers Page */
-.user-page-followers-list{
-    margin-bottom:30px;
-}
-
-.user-page-followers-list li{
-    margin-bottom:10px;
-}
-
-.user-page-following-list li{
-    margin-bottom:10px;
-}
-
-.user-page-following-list span{
-    margin-left:10px;
-}
-
-.user-search-form{
+.table-form{
     display: flex;
-    width: 80%;
-    margin-bottom: 20px;
-    max-width: 500px;
+    flex-direction: column;
 }
 
-.user-search-form input{
-    flex-grow: 1;
+.table-form h2{
+    align-self: center;
 }
 
-/* User Genres Page  */
-.user-genres-list{
-    margin-bottom: 30px;
-}
-
-.user-genres-form-controls a{
-    display: inline-block;
-}
-
-/* User Search Results */
-.user-search-results-list li{
+.table-form input {
     margin-bottom: 10px;
-}
-
-.user-search-results-list span{
-    font-size: 1.2rem;
-}
-
-/* Reviews Form Page */
-.review__form{
-    width: 400px;
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-}
-
-.review__form label{
-    margin-bottom: 2px;
-}
-
-.review__form-text{
-    min-height: 200px;
-}
-
-.review__form-text, .review__form-score{
-    margin-bottom: 20px;
-    height: 30px;
-}
-
-
-/*Genre Pages*/
-.genres-form{
-    display: flex;
-    flex-direction: column;
-    width: 300px;
-    margin-bottom: 20px;
-}
-
-.genres-form select{
-    height: 200px;
-    margin-bottom: 20px;
 }

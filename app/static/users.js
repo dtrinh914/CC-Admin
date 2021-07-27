@@ -7,10 +7,11 @@ const tableParams = {
 
 const formParams = {
     id:'user_id',
+    title: 'User',
     route: '/users/',
-    inputs: [{type:'text', name:'username', value: ''}, 
-             {type:'text', name:'password', value: ''},
-             {type:'submit', value:'Add'}
+    inputs: [{attr: {type:'text', name:'username', value: '', required:'required'}}, 
+             {attr: {type:'text', name:'password', value: '', required:'required'}},
+             {attr: {type:'submit', value:'Add', class: 'btn-outline'}}
             ]
 }
 
