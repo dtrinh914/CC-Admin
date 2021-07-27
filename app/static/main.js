@@ -133,7 +133,7 @@ const createForm = (params, updateFn) => {
     // create input for each item in params.inputs
     params.inputs.forEach(input => {
         const label = document.createElement('label');
-        label.setAttribute('for', input.attr.id);
+        label.setAttribute('for', input.attr.name);
         label.textContent = input.attr.name;
 
         form.appendChild(label);
@@ -170,12 +170,19 @@ Returns:
     An input element
 */
 const createInput = (params) => {
-    const input = document.createElement('input');
+    let input;
+
+    if(params.attr.type == 'textarea'){
+        input = document.createElement('textarea');
+    } else {
+        input = document.createElement('input');
+    }
 
     // set input attribute
     for(const attr in params.attr){
         input.setAttribute(attr, params.attr[attr]);
     }
+    input.id = params.attr.name
 
     return input;
 }
@@ -326,7 +333,7 @@ const createDBTable = async (tableRoot, tableParams, formRoot, formParams) => {
     } else {
         // display error msg
         const errorNode = document.createElement('h1');
-        errorNode.textContent = 'Error';
+        errorNode.textContent = 'Unable to retrieve data.';
         tableRoot.appendChild(errorNode)
     }
 }
