@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <section class='home-section'>
+        <h1>Hello, Welcome to Couch Critique.</h1>
+        <p>Couch Critique is a web-application that let's users write movie reviews,
+        keep track of movies that they've seen, and subscribe to other users/movie genres
+        for a personalize review/movie feed.
+        </p>
+    </section>
+    <section class='home-section'>
+        <h1>Functionality Breakdown by Entities</h1>
+        <article class='home-section__item'>
+            <p>Please create an account for full functionality or you can use the test account. <br/>
+                Username: test_user <br/>
+                Password: 123456 <br/>
+            </p>
+            <h2>Movies</h2>
+            <p>
+                Create: The search bar in the home page will retrieve a list of movie
+                data from an external API (https://www.themoviedb.org/). Once a user
+                clicks on a movie result, that movie will be added to our database
+                to keep track of our data. <br/>
+                Example Routes -
+                <a href='/movies/search?q=cats&page=1'>/movies/search?q=cats&page=1</a>
+            </p>
+            <p>
+                Read: On any movie page, data will be retrieved from the external API,
+                as well as any data that we are storing in our database. <br/>
+                Example Routes -
+                <a href='/movies/536869'>/movies/536869</a>
+            </p>
+        </article>
+        <article>
+            <h2>User</h2>
+            <p>
+                Create: A user can be created on the register page. <br/>
+                Example Routes - <a href='/register'>/register</a>
+            </p>
+            <p>
+                Read: User data is used in a variety of places, mainly the login page
+                and the user home page, which displays all of user's followers, followings,
+                watched movies, written movie reviews, custom feed, and subscribed genres. <br/>
+                Example Routes - <a href='/login'>/login</a> ,
+                <a href='/user/home'>/user/home</a>
+           </p>
+        </article>
+        <article>
+            <h2>Reviews</h2>
+            <p>
+                Create: A review can be created on any movie page. <br/>
+                Example Routes -
+                <a href='/reviews/1'>/reviews/1</a>
+            </p>
+            <p>
+                Read: Reviews are displayed in any movie page as well as a user's profile page. <br/>
+                Example Routes -
+                <a href='/movies/536869'>/movies/536869</a>, <a href='/user/home/reviews'>/user/home/reviews</a>
+            </p>
+            <p>
+                Update: Reviews can be updated within the user's review page. <br/>
+                Example Routes -
+                <a href='/reviews/edit/1'>/reviews/edit/1</a>
+            </p>
+            <p>
+                Delete: Reviews can be updated within the user's review page. <br/>
+                Example Routes -
+                <a href='/user/home/reviews'>/user/home/reviews</a>
+            </p>
+        </article>
+        <article>
+            <h2>Genres</h2>
+            <p>
+                Read: A list of a genres is displayed in the add/remove genres page, as well as in
+                a user's subscribed genres' page.<br/>
+                Example Routes -
+                <a href='/user/home/genres'>/user/home/genres</a>,
+                <a href='/genres'>/genres</a>
+            </p>
+        </article>
+        <article>
+            <h2>Subscribed Genres</h2>
+            <p>
+                Read: All of a user's subscribed genres are displayed in the user's page. <br/>
+                Example Routes -
+                <a href='/user/home/genres'>/user/home/genres</a>
+            </p>
+            <p>
+                Create: A subscribed genre relationship can be created in the add/remove genres page. <br/>
+                Example Routes -
+                 <a href='/genres'>/genres</a>
+            </p>
+            <p>
+                Delete: A subscribed genre relationship can be deleted in the add/remove genres page. <br/>
+                Example Routes -
+                <a href='/genres'>/genres</a>
+            </p>
+        </article>
+        <article>
+            <h2>Followings</h2>
+            <p>
+                Create: A following relationship can be created on a user profile page,
+                by clicking the follow button.<br/>
+                Example Routes -
+                <a href='user/1'>user/1</a>
+            </p>
+            <p>
+                Read: All of a user's followers/followings will be displayed in their home page. <br/>
+                Example Routes -
+                <a href='user/home/follow'>user/home/follow</a>
+            </p>
+            <p>
+                Delete: A following relationship can be deleted on a user profile page,
+                by clicking unfollow, or by deleting it in within the user's home page.
+                <br/>
+                Example Routes -
+                <a href='user/home/follow'>user/home/follow</a>
+            </p>
+        </article>
+        <article>
+            <h2>Watched Movies</h2>
+            <p>
+                Create: A watched movie relationship can be created on any movie page,
+                by clicking on the 'Add to Watched Movies' button.<br/>
+                Example Routes -
+                <a href='/movies/536869'>/movies/536869</a>
+            </p>
+            <p>
+                Read: All of a user's watched movie is displayed within their home page.<br/>
+                Example Routes -
+                <a href='/user/home/watched'>/user/home/watched</a>
+            </p>
+            <p>
+                Delete: Any watched movie relationship can be removed from their corresponding
+                pages by clicking the 'Remove from Watched Movies' button or removed
+                within a user's home page.<br/>
+                Example Routes -
+                <a href='/user/home/watched'>/user/home/watched</a>
+            </p>
+        </article>
+    </section>
+{% endblock %}

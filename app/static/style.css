@@ -1,0 +1,517 @@
+/* CSS Variables */
+:root {
+  --shadow-1: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  --shadow-2: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  --shadow-3: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  --shadow-4: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  --shadow-5: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+
+  --primary-color: #f44336;
+  --primary-color-dark: #d32f2f;
+  --primary-color-light: #ef5350;
+  --primary-color-light-2: #ef9a9a;
+  --secondary-color: #ab47bc;
+  --secondary-color-dark: #6a1b9a;
+  --secondary-color-light: #ba68c8;
+  --secondary-color-light-2: #e1bee7;
+  --light-gray: #fafafa;
+}
+
+/* MAIN */
+html {
+  box-sizing: border-box;
+  font-family: 'Lato', sans-serif;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body{
+    font-size: 16px;
+    margin: 0;
+    background: var(--light-gray)
+}
+
+ul{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+textarea{
+    resize: none;
+}
+
+.navbar li{
+    margin-right: 10px;
+}
+
+a{
+    text-decoration: none;
+}
+
+.btn{
+    display: inline-block;
+    border: None;
+    border-radius: 10px;
+    padding: 10px;
+    color: white;
+    background: var(--secondary-color);
+    box-shadow: var(--shadow-1);
+    transition: all 0.2s ease;
+}
+
+.btn:hover{
+    box-shadow: var(--shadow-2);
+    background: var(--secondary-color-dark);
+}
+
+.btn:active{
+    position: relative;
+    top: 2px;
+}
+
+.btn-outline{
+    display: inline-block;
+    border: 2px solid var(--secondary-color);
+    border-radius: 10px;
+    padding: 8px;
+    color: var(--secondary-color);
+    box-shadow: var(--shadow-1);
+    transition: all 0.2s ease;
+    background: none;
+}
+
+.btn-outline:hover{
+    box-shadow: var(--shadow-2);
+    background: var(--secondary-color-light-2);
+    color: white;
+}
+
+.btn-outline:active{
+    position: relative;
+    top: 2px;
+}
+
+.btn-primary{
+    display: inline-block;
+    border: None;
+    border-radius: 10px;
+    padding: 10px;
+    color: white;
+    background: var(--primary-color);
+    box-shadow: var(--shadow-1);
+    transition: all 0.2s ease;
+}
+
+.btn-primary:hover{
+    box-shadow: var(--shadow-2);
+    background: var(--primary-color-light);
+}
+
+.btn-primary:active{
+    position: relative;
+    top: 2px;
+}
+
+.btn-primary-outline{
+    display: inline-block;
+    border: 2px solid var(--primary-color);
+    border-radius: 10px;
+    padding: 8px;
+    color: var(--primary-color);
+    background: none;
+    box-shadow: var(--shadow-1);
+    transition: all 0.2s ease;
+}
+
+.btn-primary-outline:hover{
+    box-shadow: var(--shadow-2);
+    background: var(--primary-color-light-2);
+    color: white;
+}
+
+.btn-primary-outline:active{
+    position: relative;
+    top: 2px;
+}
+
+.material-icons-outlined {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.container > *{
+    background: white;
+}
+
+/* Home Page */
+.home-section{
+    width: 90%;
+    max-width: 1200px;
+    box-shadow: var(--shadow-1);
+    padding: 20px;
+    margin: 20px 0;
+}
+
+/* Navigation Bar */
+.navbar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--primary-color);
+    color: white;
+    width: 100%;
+    height: 100px;
+    box-shadow: var(--shadow-3);
+    margin-bottom: 50px;
+}
+
+.navbar__logo{
+    margin: 0 10px;
+}
+
+.navbar__search{
+    display: flex;
+    width: 100%;
+    max-width: 500px;
+}
+
+.navbar__search input{
+    flex-grow: 1;
+    border-radius: 10px;
+    border: none;
+    padding-left: 10px;
+}
+
+.navbar__search-btn{
+    width: 50px;
+    background: none;
+    border: none;
+    color: white;
+}
+
+.navbar ul{
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.navbar a:link{
+    color: inherit;
+}
+
+.navbar a:visited{
+    color: inherit;
+}
+
+/* Form Errors */
+.form-errors{
+    margin-bottom: 10px;
+    border: 2px solid #c62828;
+    list-style-type: disc;
+    padding: 20px 20px 20px 30px;
+    border-radius: 5px;
+    min-width: 300px;
+    text-align: left;
+}
+
+/* Register Page */
+.register{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: var(--shadow-1);
+    margin-top: 50px;
+    padding: 45px 0;
+    padding-bottom: 70px;
+}
+
+.register__form{
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.register__form label{
+    margin-bottom: 2px;
+}
+
+.register__form input{
+    margin-bottom: 15px;
+    height: 30px;
+}
+
+/* Login Page */
+.login{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    width: 80%;
+    max-width: 600px;
+    box-shadow: var(--shadow-1);
+    margin-top: 50px;
+    padding: 45px 0;
+    padding-bottom: 70px;
+}
+
+.login__form{
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.login__form label{
+    margin-bottom: 2px;
+}
+
+.login__form input{
+    margin-bottom: 15px;
+    height: 30px;
+}
+
+/* Movie Search Page */
+.movie-search-results{
+    margin: 20px 0;
+    background: var(--light-gray)
+}
+
+.movie-search-results a{
+    color: inherit;
+}
+
+.movie-search-results a:visited{
+    color: inherit;
+}
+
+.movie-search-results__item{
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: var(--shadow-1);
+    transition: all 0.5s ease;
+    padding: 20px;
+    margin: 20px 0;
+    background: white;
+}
+
+.movie-search-results__item:hover{
+    box-shadow: var(--shadow-2);
+}
+
+.movie-search-results__item img{
+    height: 400px;
+    margin-top: 20px;
+}
+
+.movie-search-pages{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.movie-search-pages ol{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.movie-search-pages li{
+    margin: 0 1px;
+}
+
+/* Movie Page */
+.movie-page-info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    margin: 20px 0;
+    padding: 20px;
+    box-shadow: var(--shadow-1);
+}
+
+.movie-page-info__description{
+    max-width: 600px;
+}
+
+.movie-page-info img{
+    height: 600px;
+}
+
+.movie-page-reviews{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    box-shadow: var(--shadow-1);
+    padding: 40px;
+    margin-bottom: 50px;
+}
+
+/* User Main Page */
+.user-section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    max-width: 1200px;
+    box-shadow: var(--shadow-1);
+    padding: 20px;
+    padding-bottom: 40px;
+    margin-bottom: 20px;
+}
+
+/* User Watched Page */
+.user-watched-list{
+    margin-bottom: 30px;
+}
+
+.user-watched-list li{
+    margin-bottom: 10px;
+}
+
+.user-watched-title{
+    margin-left: 10px;
+    font-size: 1.2rem;
+}
+
+.user-watched-delete-btn{
+    font-size: 0.8rem;
+    padding: 2px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+/* User Reviews Page */
+.user-page-reviews__item{
+    width: 90%;
+}
+
+.user-page-reviews__item a{
+    font-size: 0.7rem;
+}
+
+.user-page-reviews article:last-of-type{
+    margin-bottom: 50px;
+}
+
+/* User Followers Page */
+.user-page-followers-list{
+    margin-bottom:30px;
+}
+
+.user-page-followers-list li{
+    margin-bottom:10px;
+}
+
+.user-page-following-list li{
+    margin-bottom:10px;
+}
+
+.user-page-following-list span{
+    margin-left:10px;
+}
+
+.user-search-form{
+    display: flex;
+    width: 80%;
+    margin-bottom: 20px;
+    max-width: 500px;
+}
+
+.user-search-form input{
+    flex-grow: 1;
+}
+
+/* User Genres Page  */
+.user-genres-list{
+    margin-bottom: 30px;
+}
+
+.user-genres-form-controls a{
+    display: inline-block;
+}
+
+/* User Search Results */
+.user-search-results-list li{
+    margin-bottom: 10px;
+}
+
+.user-search-results-list span{
+    font-size: 1.2rem;
+}
+
+/* Reviews Form Page */
+.review__form{
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.review__form label{
+    margin-bottom: 2px;
+}
+
+.review__form-text{
+    min-height: 200px;
+}
+
+.review__form-text, .review__form-score{
+    margin-bottom: 20px;
+    height: 30px;
+}
+
+
+/*Genre Pages*/
+.genres-form{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    margin-bottom: 20px;
+}
+
+.genres-form select{
+    height: 200px;
+    margin-bottom: 20px;
+}
