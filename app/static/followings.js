@@ -1,21 +1,20 @@
 const tableParams = {
-    id: 'movies-table',
+    id: 'followings-table',
     className: 'admin-table',
-    columnNames: ['movie_id', 'title', 'avg_review_score'],
-    route: '/movies/'
+    columnNames: ['following_id', 'date_created', 'follower_id', 'followee_id'],
+    route: '/followings/'
 }
 
 const formParams = {
-    title:'Movie',
-    id:'movie_id',
-    route: '/movies/',
+    title:'Following',
+    id:'following_id',
+    route: '/followings/',
     inputs: [{attr:{
-                    type:'text', name:'title', value: '', required:'required'
+                    type:'number', name:'follower_id', value: 1, required:'required'
                    }
              }, 
              {attr:{
-                    type:'number', name:'avg_review_score', value: '', 
-                    step:0.1, min:0.0, max:10.0, required:'required'
+                    type:'number', name:'followee_id', value: 1, required:'required'
                    }
              },
              {attr:{

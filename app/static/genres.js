@@ -1,21 +1,16 @@
 const tableParams = {
-    id: 'movies-table',
+    id: 'genres-table',
     className: 'admin-table',
-    columnNames: ['movie_id', 'title', 'avg_review_score'],
-    route: '/movies/'
+    columnNames: ['genre_id', 'genre_name'],
+    route: '/genres/'
 }
 
 const formParams = {
-    title:'Movie',
-    id:'movie_id',
-    route: '/movies/',
+    title:'Genre',
+    id:'genre_id',
+    route: '/genres/',
     inputs: [{attr:{
-                    type:'text', name:'title', value: '', required:'required'
-                   }
-             }, 
-             {attr:{
-                    type:'number', name:'avg_review_score', value: '', 
-                    step:0.1, min:0.0, max:10.0, required:'required'
+                    type:'text', name:'genre_name', value: '', required:'required'
                    }
              },
              {attr:{

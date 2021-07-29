@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from app.database.db_utils import get_movies
+from app.database.db_utils import get_movies, add_movie, edit_movie, delete_movie
 
 movies = Blueprint('movies', __name__, url_prefix='/movies')
 
@@ -16,36 +16,36 @@ def get_route():
             
         return jsonify(data)
 
-# @movies.route('/', methods=['POST'])
-# def post_route():
-#     username = request.form.get('username');
-#     password = request.form.get('password');
+@movies.route('/', methods=['POST'])
+def post_route():
+    title = request.form.get('title');
+    avg_review_score = request.form.get('avg_review_score');
 
-#     response = add_user(username, password);
+    response = add_movie(title, avg_review_score);
 
-#     if response is True:
-#         return jsonify({'status': 200})
-#     else:
-#         return jsonify({'error': response}), 500
+    if response is True:
+        return jsonify({'status': 200})
+    else:
+        return jsonify({'error': response}), 500
 
-# @movies.route('/<movie_id>', methods=['PUT'])
-# def put_route(movie_id):
-#     username = request.form.get('username');
-#     password = request.form.get('password')
-#     response = edit_user(int(user_id), username, password);
+@movies.route('/<movie_id>', methods=['PUT'])
+def put_route(movie_id):
+    title = request.form.get('title');
+    avg_reveiw_score = request.form.get('avg_review_score')
+    response = edit_movie(int(movie_id), title, avg_reveiw_score);
 
-#     if response is True:
-#         return jsonify({'status': 200})
-#     else:
-#         return jsonify({'error': response}), 500
+    if response is True:
+        return jsonify({'status': 200})
+    else:
+        return jsonify({'error': response}), 500
 
-# @movies.route('/<user_id>', methods=['DELETE'])
-# def delete_route(user_id):
-#     response = delete_user(int(user_id));
+@movies.route('/<movie_id>', methods=['DELETE'])
+def delete_route(movie_id):
+    response = delete_movie(int(movie_id));
 
-#     if response is True:
-#         return jsonify({'status': 200})
-#     else:
-#         return jsonify({'error': response}), 500
+    if response is True:
+        return jsonify({'status': 200})
+    else:
+        return jsonify({'error': response}), 500
 
 

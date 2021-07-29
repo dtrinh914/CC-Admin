@@ -1,21 +1,20 @@
 const tableParams = {
-    id: 'movies-table',
+    id: 'watched_movies-table',
     className: 'admin-table',
-    columnNames: ['movie_id', 'title', 'avg_review_score'],
-    route: '/movies/'
+    columnNames: ['watched_id', 'date_created', 'movie_id', 'user_id'],
+    route: '/watched_movies/'
 }
 
 const formParams = {
-    title:'Movie',
-    id:'movie_id',
-    route: '/movies/',
+    title:'Watched Movie',
+    id:'watched_id',
+    route: '/watched_movies/',
     inputs: [{attr:{
-                    type:'text', name:'title', value: '', required:'required'
+                    type:'number', name:'movie_id', value: 1, required:'required'
                    }
              }, 
              {attr:{
-                    type:'number', name:'avg_review_score', value: '', 
-                    step:0.1, min:0.0, max:10.0, required:'required'
+                    type:'number', name:'user_id', value: 1, required:'required'
                    }
              },
              {attr:{
