@@ -1,7 +1,7 @@
 const tableParams = {
     id: 'subscribed_genres-table',
     className: 'admin-table',
-    columnNames: ['subscribed_id', 'user_id', 'genre_id'],
+    columnNames: ['subscribed_id', 'username', 'genre_name'],
     route: '/subscribed_genres/'
 }
 

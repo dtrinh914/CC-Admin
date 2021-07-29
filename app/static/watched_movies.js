@@ -1,7 +1,7 @@
 const tableParams = {
     id: 'watched_movies-table',
     className: 'admin-table',
-    columnNames: ['watched_id', 'date_created', 'movie_id', 'user_id'],
+    columnNames: ['watched_id', 'date_created', 'movie_title', 'username'],
     route: '/watched_movies/'
 }
 

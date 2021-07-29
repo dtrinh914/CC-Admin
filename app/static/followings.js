@@ -1,7 +1,7 @@
 const tableParams = {
     id: 'followings-table',
     className: 'admin-table',
-    columnNames: ['following_id', 'date_created', 'follower_id', 'followee_id'],
+    columnNames: ['following_id', 'date_created', 'follower_name', 'followee_name'],
     route: '/followings/'
 }
 
