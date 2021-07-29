@@ -1,7 +1,7 @@
 const tableParams = {
     id: 'reviews-table',
     className: 'admin-table',
-    columnNames: ['review_id', 'data_created', 'author_id', 'movie_id', 'review_text', 'review_score'],
+    columnNames: ['review_id', 'data_created', 'author_name', 'movie_title', 'review_text', 'review_score'],
     route: '/reviews/'
 }
 
