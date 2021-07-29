@@ -5,7 +5,7 @@ from requests.models import Response
 from app.database import db_connection
 from dotenv import load_dotenv, find_dotenv
 import json
-from flask import session
+from flask import session, jsonify
 load_dotenv(find_dotenv())
 api_key = os.environ.get("TMDB_APIKEY")
 host_name = 'https://api.themoviedb.org/3'
@@ -31,6 +31,17 @@ def get_genre_list():
     except requests.exceptions.RequestException as e:
         print(f'Error in retrieving data from {url}:{e}')
 
+@db_connection.error_handler
+def get_genre_names():
+    """retrieves genre name data from genres database"""
+    conn = db_connection.get_conn()
+    cur = conn.cursor(dictionary=True)
+    query = (f'SELECT * FROM genres;')
+    cur.execute(query)
+    genre_names  = cur.fetchall()
+    genre_names = jsonify(genre_names)
+    conn.close()
+    return genre_names
 @db_connection.error_handler
 def add_db_genre():
     """adds all genres to genre table"""
