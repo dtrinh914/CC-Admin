@@ -209,6 +209,21 @@ const createSelect = (params) => {
     const select = document.createElement('select');
 
     (async () => {
+        // add extra select options
+        if(params.extraOptions){
+            params.extraOptions.forEach(extraOption => {
+                const option = document.createElement('option');
+                option.setAttribute('value', extraOption.value);
+                option.textContent = extraOption.text;
+
+                if(params.attr.value == ''){
+                    option.selected = true;
+                }
+
+                select.appendChild(option);
+            });
+        }
+        
         const response = await fetch(params.route);
 
         if(response.status == 200){

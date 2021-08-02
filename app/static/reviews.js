@@ -15,7 +15,8 @@ const formParams = {
                    },
               route: '/users',
               id: 'user_id',
-              fieldname:'username'
+              fieldname:'username',
+              extraOptions: [{value:'', text:'NULL'}]
              }, 
              {attr:{
                     type:'select', name:'movie_id', value:'',required:'required', label:'movie_title',
