@@ -29,8 +29,8 @@ def put_route(watched_id):
     movie_id = request.form.get('movie_id')
     user_id = request.form.get('user_id')
 
-    res = add_to_watched_list(int(user_id), int(movie_id))
-    
+    res = m.edit_watched_movies(int(watched_id), int(movie_id), int(user_id))
+
     if res is True:
         return jsonify({'status':200})
     else:
@@ -38,5 +38,10 @@ def put_route(watched_id):
 
 @watched_movies.route('/<watched_id>', methods=['DELETE'])
 def delete_route(watched_id):
-    # TODO: add functionality
-    pass
+    
+    res = m.delete_watched_movies(int(watched_id))
+
+    if res is True:
+        return jsonify({'status':200})
+    else:
+        return jsonify({'error':res})

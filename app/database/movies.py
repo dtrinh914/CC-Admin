@@ -170,4 +170,22 @@ def add_watched_movies(user_id, movie_id):
 @db_connection.error_handler
 def delete_watched_movies(id):
     """deletes row from watched_movies"""
-    
+
+    conn = db_connection.get_conn()
+    cur = conn.cursor()
+
+    cur.execute(f'DELETE FROM watched_movies WHERE watched_id = {id}')
+    conn.close()
+
+    return True
+
+@db_connection.error_handler
+def edit_watched_movies(watched_id: int, movie_id: str, user_id: float) -> bool:
+    """Edits watched movies"""
+
+    conn = db_connection.get_conn()
+    cur = conn.cursor()
+    query = 'UPDATE watched_movies SET movie_id=?, user_id=? WHERE watched_id=?'
+    cur.execute(query, (movie_id, user_id, int(watched_id)))
+    conn.close()
+    return True
