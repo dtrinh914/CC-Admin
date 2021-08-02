@@ -64,8 +64,8 @@ def edit_followings(follower_id: int, followee_id: int, following_id:int):
 
 @db_connection.error_handler
 def delete_followings(following_id):
-    """deletes followings row from db"""
-
+    """deletes followings row from database"""
+    
     conn = db_connection.get_conn()
     cur = conn.cursor()
     query = f'DELETE FROM followings WHERE following_id={following_id}'
