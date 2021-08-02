@@ -1,7 +1,7 @@
 from app.database import db_connection
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
-
+from flask import jsonify
 
 @db_connection.error_handler
 def get_movies() -> list:
@@ -134,3 +134,58 @@ def remove_from_watched_list(user_id: int, movie_id: int) -> bool:
     return True
 
 
+# watched movies
+@db_connection.error_handler
+def get_watched_movies():
+    """retrieves watched movies"""
+    conn = db_connection.get_conn()
+    cur = conn.cursor(dictionary = True)
+
+    query = ('SELECT watched_id, watched_movies.date_created as date_created, users.username as username, movies.title as movie_title\n'
+            'FROM watched_movies\n'
+            'INNER JOIN users ON watched_movies.user_id\n'
+            'INNER JOIN movies ON watched_movies.movie_id\n'
+            'WHERE users.user_id = watched_movies.user_id AND\n'
+            'movies.movie_id = watched_movies.movie_id')
+
+    cur.execute(query)
+    response = cur.fetchall()
+    conn.close()
+    return jsonify(response)
+
+@db_connection.error_handler
+def add_watched_movies(user_id, movie_id):
+    """adds watched movie using user_id and movie_id"""
+
+    query = ('INSERT INTO watched_movies movie_id, user_id\n'
+            ' VALUES (?,?)')
+    conn = db_connection.get_conn()
+    cur = conn.cursor(dictionary = True)
+    
+
+    cur.execute(query, (movie_id, user_id))
+    conn.close()
+    return True
+
+@db_connection.error_handler
+def delete_watched_movies(id):
+    """deletes row from watched_movies"""
+
+    conn = db_connection.get_conn()
+    cur = conn.cursor()
+
+    cur.execute(f'DELETE FROM watched_movies WHERE watched_id = {id}')
+    conn.close()
+
+    return True
+
+@db_connection.error_handler
+def edit_watched_movies(watched_id: int, movie_id: str, user_id: float) -> bool:
+    """Edits watched movies"""
+
+    conn = db_connection.get_conn()
+    cur = conn.cursor()
+    query = 'UPDATE watched_movies SET movie_id=?, user_id=? WHERE watched_id=?'
+    cur.execute(query, (movie_id, user_id, int(watched_id)))
+    conn.close()
+    return True
