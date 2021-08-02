@@ -180,6 +180,7 @@ a{
     box-shadow: var(--shadow-1);
     padding: 20px;
     margin: 20px 0;
+    text-align: center;
 }
 
 /* Navigation Bar */
@@ -273,6 +274,21 @@ a{
     align-self: center;
 }
 
-.table-form input {
+.table-form input,select {
     margin-bottom: 10px;
+}
+
+.filter-form {
+    display: flex;
+    align-items: center;
+}
+
+.filter-form label,input{
+    margin-right: 5px;
+}
+
+.filter-input{
+    align-self: stretch;
+    border-radius: 5px;
+    border: 1px solid black;
 }

@@ -2,6 +2,7 @@ const tableParams = {
     id: 'genres-table',
     className: 'admin-table',
     columnNames: ['genre_id', 'genre_name'],
+    title: 'Genres',
     route: '/genres/'
 }
 

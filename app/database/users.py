@@ -81,7 +81,7 @@ def search_user(search_str: str) -> list:
     """
     conn = db_connection.get_conn()
     cur = conn.cursor(dictionary=True)
-    query = 'SELECT user_id, username FROM users WHERE username LIKE %s'
+    query = 'SELECT * FROM users WHERE username LIKE %s'
     cur.execute(query, ('%' + search_str + '%',))
     user_data = cur.fetchall()
     conn.close()

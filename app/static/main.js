@@ -132,11 +132,15 @@ const createForm = (params, updateFn) => {
 
     // create input for each item in params.inputs
     params.inputs.forEach(input => {
-        const label = document.createElement('label');
-        label.setAttribute('for', input.attr.name);
-        label.textContent = input.attr.name;
 
-        form.appendChild(label);
+        if(input.attr.type !== 'submit'){
+            const label = document.createElement('label');
+            label.setAttribute('for', input.attr.name);
+            const labelName = input.attr.label || input.attr.name
+            label.textContent = labelName;
+            form.appendChild(label);
+        }
+        
         form.appendChild(createInput(input));
     });
 
@@ -174,6 +178,9 @@ const createInput = (params) => {
 
     if(params.attr.type == 'textarea'){
         input = document.createElement('textarea');
+        input.textContent = params.attr.value;
+    } else if(params.attr.type == 'select'){
+        input = createSelect(params);
     } else {
         input = document.createElement('input');
     }
@@ -182,9 +189,64 @@ const createInput = (params) => {
     for(const attr in params.attr){
         input.setAttribute(attr, params.attr[attr]);
     }
-    input.id = params.attr.name
 
+    if(params.attr.type !== 'submit'){
+        input.id = params.attr.name
+    }
+    
     return input;
+}
+
+/*
+Creates a select element
+
+Args:
+    params: parameters for the select element
+Returns:
+    An select element
+*/
+const createSelect = (params) => {
+    const select = document.createElement('select');
+
+    (async () => {
+        // add extra select options
+        if(params.extraOptions){
+            params.extraOptions.forEach(extraOption => {
+                const option = document.createElement('option');
+                option.setAttribute('value', extraOption.value);
+                option.textContent = extraOption.text;
+
+                if(params.attr.value == ''){
+                    option.selected = true;
+                }
+
+                select.appendChild(option);
+            });
+        }
+        
+        const response = await fetch(params.route);
+
+        if(response.status == 200){
+            const data = await response.json();
+            
+            // create an option for each item in data
+            data.forEach(item => {
+                const option = document.createElement('option');
+                const id = params.id
+                option.setAttribute('value', item[id]);
+                option.textContent = item[params.fieldname];
+
+                // if the param value is equal to the item value, set it as selected
+                if(item[id] == params.attr.value){
+                    option.selected = true;
+                }
+
+                select.appendChild(option);
+            });
+        }
+    })();
+    
+    return select;
 }
 
 
@@ -292,6 +354,57 @@ const createEditForm = (root, formParams, updateFn, data) => {
     return userEditForm;
 }
 
+/*
+Creates a filter input.
+
+Args:
+    params: filter paramters
+Returns:
+    A filter input
+*/
+const createFilter = (params, updateFn) => {
+    const form = document.createElement('form');
+    form.className = 'filter-form';
+
+    const label = document.createElement('label');
+    label.setAttribute('for', 'filter_str');
+    label.textContent = `Filter by ${params.by}:`;
+    form.appendChild(label);
+
+    // filter input
+    const filterInput = createInput({attr:
+                                        {type:'text', 
+                                         name:'filter_str', 
+                                         value:params.filterValue,
+                                         class:'filter-input'
+                                        }
+                                     });
+    form.appendChild(filterInput);
+
+    // submit button
+    form.appendChild(createInput({attr:{type:'submit', value:'Filter', class:'btn'}}));
+
+    // create clear button
+    const clearBtn = document.createElement('button');
+    clearBtn.className = 'btn-primary-outline'
+    clearBtn.textContent = 'Clear Filter';
+    clearBtn.onclick = (e) => {
+        e.preventDefault();
+        params.filterValue = '';
+        updateFn()
+    };
+
+    form.appendChild(clearBtn);
+
+    form.onsubmit = (e) => {
+        e.preventDefault();
+        params.filterValue = filterInput.value;
+        updateFn()
+    }
+
+    return form
+};
+
 
 /*
 Creates an DB table and it's functionality and appends it to the root
@@ -317,19 +430,42 @@ const createDBTable = async (tableRoot, tableParams, formRoot, formParams) => {
     if(formRoot.childElementCount == 0){
         createAddForm(formRoot, formParams, updateFn);
     }
+
+    // add title
+    const title = document.createElement('h1');
+    title.textContent = `${tableParams.title} Table`;
+    tableRoot.append(title);
+
+    let getRoute = tableParams.route;
+
+    if(tableParams.filter){
+        const filterForm = createFilter(tableParams.filter, updateFn);
+        tableRoot.append(filterForm);
+        getRoute = getRoute + `?q=${tableParams.filter.filterValue}`;
+    }
     
     // get table data from db
-    const response = await fetch(tableParams.route);
+    const response = await fetch(getRoute);
 
     if(response.status == 200){
         // add in table data if success
         const data = await response.json();
-        const usersTable = createTable(tableParams, 
-                                       data, 
-                                       updateFn, 
-                                       createEditForm.bind(this, formRoot, formParams, updateFn));
-        tableRoot.appendChild(usersTable);
-        tableRoot.appendChild(createAddBtn(formRoot, formParams, updateFn));
+
+        if(data.length == 0){
+            // display no data msg
+            const noData = document.createElement('h1');
+            noData.textContent = tableParams.filter && tableParams.filter.filterValue ?
+                                    'There are no rows that match the filter value.': 
+                                    'There is no data in the table.';
+            tableRoot.appendChild(noData)
+        } else {
+            const usersTable = createTable(tableParams, 
+                                        data, 
+                                        updateFn, 
+                                        createEditForm.bind(this, formRoot, formParams, updateFn));
+            tableRoot.appendChild(usersTable);
+            tableRoot.appendChild(createAddBtn(formRoot, formParams, updateFn));
+        }
     } else {
         // display error msg
         const errorNode = document.createElement('h1');

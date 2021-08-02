@@ -71,69 +71,6 @@ def delete_movie(movie_id: int) -> bool:
     conn.close()
     return True
 
-
-@db_connection.error_handler
-def get_watched_list(user_id: int) -> list:
-    """Retrieves a user's watched list.
-
-    Args:
-        user_id: user id
-
-    Returns:
-        A list of a user's watched movies
-    """
-    conn = db_connection.get_conn()
-    cur = conn.cursor(dictionary=True)
-    query = """
-            SELECT movies.movie_id, movies.title FROM movies
-            JOIN watched_movies ON watched_movies.movie_id = movies.movie_id
-            WHERE watched_movies.user_id=?
-            """
-
-    cur.execute(query, (user_id,))
-    data = cur.fetchall()
-    conn.close()
-    return data
-
-
-@db_connection.error_handler
-def add_to_watched_list(user_id: int, movie_id: int) -> bool:
-    """Adds a movie to a user's watched list
-
-    Args:
-        user_id: user id
-        movie_id: movie id
-
-    Returns:
-        True if successful else return None
-    """
-    conn = db_connection.get_conn()
-    cur = conn.cursor()
-    query = 'INSERT INTO watched_movies(user_id, movie_id) VALUES (?,?)'
-    cur.execute(query, (user_id, movie_id))
-    conn.close()
-    return True
-
-
-@db_connection.error_handler
-def remove_from_watched_list(user_id: int, movie_id: int) -> bool:
-    """Remove a movie from a user's watched list
-
-    Args:
-        user_id: user id
-        movie_id: movie id
-
-    Returns:
-        True if successful else return None
-    """
-    conn = db_connection.get_conn()
-    cur = conn.cursor()
-    query = 'DELETE FROM watched_movies WHERE user_id=? and movie_id=?'
-    cur.execute(query, (user_id, movie_id))
-    conn.close()
-    return True
-
-
 # watched movies
 @db_connection.error_handler
 def get_watched_movies():
@@ -141,12 +78,12 @@ def get_watched_movies():
     conn = db_connection.get_conn()
     cur = conn.cursor(dictionary = True)
 
-    query = ('SELECT watched_id, watched_movies.date_created as date_created, users.username as username, movies.title as movie_title\n'
+    query = ('SELECT watched_id, watched_movies.user_id as user_id, watched_movies.movie_id as movie_id, \n'
+            'watched_movies.date_created as date_created, users.username as username, movies.title as movie_title\n'
             'FROM watched_movies\n'
-            'INNER JOIN users ON watched_movies.user_id\n'
-            'INNER JOIN movies ON watched_movies.movie_id\n'
-            'WHERE users.user_id = watched_movies.user_id AND\n'
-            'movies.movie_id = watched_movies.movie_id')
+            'JOIN users ON users.user_id = watched_movies.user_id\n'
+            'JOIN movies ON movies.movie_id = watched_movies.movie_id'
+            )
 
     cur.execute(query)
     response = cur.fetchall()
@@ -157,8 +94,7 @@ def get_watched_movies():
 def add_watched_movies(user_id, movie_id):
     """adds watched movie using user_id and movie_id"""
 
-    query = ('INSERT INTO watched_movies movie_id, user_id\n'
-            ' VALUES (?,?)')
+    query = ('INSERT INTO watched_movies (movie_id, user_id) VALUES (?,?)')
     conn = db_connection.get_conn()
     cur = conn.cursor(dictionary = True)
     
@@ -173,8 +109,8 @@ def delete_watched_movies(id):
 
     conn = db_connection.get_conn()
     cur = conn.cursor()
-
-    cur.execute(f'DELETE FROM watched_movies WHERE watched_id = {id}')
+    query = 'DELETE FROM watched_movies WHERE watched_id = ?'
+    cur.execute(query, (int(id),))
     conn.close()
 
     return True
@@ -186,6 +122,6 @@ def edit_watched_movies(watched_id: int, movie_id: str, user_id: float) -> bool:
     conn = db_connection.get_conn()
     cur = conn.cursor()
     query = 'UPDATE watched_movies SET movie_id=?, user_id=? WHERE watched_id=?'
-    cur.execute(query, (movie_id, user_id, int(watched_id)))
+    cur.execute(query, (int(movie_id), int(user_id), int(watched_id)))
     conn.close()
     return True

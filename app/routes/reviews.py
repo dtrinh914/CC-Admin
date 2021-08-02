@@ -1,18 +1,16 @@
 from flask import Blueprint, jsonify, request
-from app.database.reviews import get_reviews_api
 import app.database.reviews as r
 reviews = Blueprint('reviews', __name__, url_prefix='/reviews')
 
 
 @reviews.route('/', methods=['GET'])
 def get_route():
-
     reviews = r.get_reviews_api()
 
     if isinstance(reviews, str):
         return jsonify({'error': reviews}), 500 
     else:
-        return reviews
+        return jsonify(reviews)
 
 @reviews.route('/', methods=['POST'])
 def post_route():
@@ -20,6 +18,9 @@ def post_route():
     movie_id = request.form.get('movie_id')
     review_text = request.form.get('review_text')
     review_score = request.form.get('review_score')
+
+    if author_id.strip() == '':
+        author_id = None
 
     res = r.add_reviews(author_id,movie_id,review_text,review_score)
 
@@ -34,8 +35,13 @@ def put_route(review_id):
     movie_id = request.form.get('movie_id')
     review_text = request.form.get('review_text')
     review_score = request.form.get('review_score')
+
+    if author_id.strip() == '':
+        author_id = None
+    else:
+        author_id = int(author_id)
     
-    res = r.edit_reviews(int(review_id), int(author_id), int(movie_id), review_text, int(review_score))
+    res = r.edit_reviews(int(review_id), author_id, int(movie_id), review_text, int(review_score))
     if res is True:
         return jsonify({'status':200})
     else:

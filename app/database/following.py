@@ -1,15 +1,4 @@
-import os
-from dotenv.main import load_dotenv
-import requests
-from requests.models import Response
 from app.database import db_connection
-from dotenv import load_dotenv, find_dotenv
-import json
-from flask import session, jsonify
-load_dotenv(find_dotenv())
-api_key = os.environ.get("TMDB_APIKEY")
-host_name = 'https://api.themoviedb.org/3'
-
 
 @db_connection.error_handler
 def get_follow_list():
@@ -19,20 +8,19 @@ def get_follow_list():
     cur = conn.cursor(dictionary=True)
 
     query = (
-        'SELECT f.following_id as following_id, f.date_created as date_created,\n' 
+        'SELECT f.following_id as following_id, f.date_created as date_created,\n'
+        'users.user_id as follower_id, users2.user_id as followee_id,\n' 
         'users.username as follower_name, users2.username as followee_name\n'
         'FROM followings f\n'
-        'INNER JOIN users ON f.follower_id\n'
-        'INNER JOIN users users2 ON f.followee_id\n'
-        'WHERE users.user_id = f.follower_id\n'
-        'AND users2.user_id = f.followee_id'
+        'JOIN users ON users.user_id = f.follower_id\n'
+        'INNER JOIN users users2 ON users2.user_id = f.followee_id\n'
     )
     cur.execute(query)
 
     res = cur.fetchall()
     conn.close()
 
-    return jsonify(res)
+    return res
 
 @db_connection.error_handler
 def add_to_following(follower_id, followee_id):
@@ -68,8 +56,8 @@ def delete_followings(following_id):
     
     conn = db_connection.get_conn()
     cur = conn.cursor()
-    query = f'DELETE FROM followings WHERE following_id={following_id}'
-    cur.execute(query)
+    query = f'DELETE FROM followings WHERE following_id=?'
+    cur.execute(query, (following_id,))
     conn.close()
 
     return True

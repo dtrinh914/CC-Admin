@@ -2,6 +2,7 @@ const tableParams = {
     id: 'followings-table',
     className: 'admin-table',
     columnNames: ['following_id', 'date_created', 'follower_name', 'followee_name'],
+    title: 'Followings',
     route: '/followings/'
 }
 
@@ -10,12 +11,18 @@ const formParams = {
     id:'following_id',
     route: '/followings/',
     inputs: [{attr:{
-                    type:'number', name:'follower_id', value: 1, required:'required'
-                   }
+                    type:'select', name:'follower_id', value: 1, required:'required', label:'follower_name'
+                   },
+              route: '/users',
+              id: 'user_id',
+              fieldname: 'username'
              }, 
              {attr:{
-                    type:'number', name:'followee_id', value: 1, required:'required'
-                   }
+                    type:'select', name:'followee_id', value: 1, required:'required', label:'followee_name'
+                   },
+              route: '/users',
+              id: 'user_id',
+              fieldname: 'username'
              },
              {attr:{
                     type:'submit', value:'Add', class: 'btn-outline'

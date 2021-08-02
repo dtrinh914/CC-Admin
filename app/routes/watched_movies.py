@@ -17,7 +17,7 @@ def post_route():
     user_id = request.form.get('user_id')
     movie_id = request.form.get('movie_id')
 
-    res = m.add_to_watched_list(user_id, movie_id)
+    res = m.add_watched_movies(user_id, movie_id)
 
     if res is True:
         return jsonify({'status':200})
@@ -44,4 +44,4 @@ def delete_route(watched_id):
     if res is True:
         return jsonify({'status':200})
     else:
-        return jsonify({'error':res})
+        return jsonify({'error':res}), 500

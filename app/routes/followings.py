@@ -10,7 +10,7 @@ def get_route():
     if isinstance(res, str):
         return jsonify({'error': res}), 500 
     else:
-        return res
+        return jsonify(res)
 
 @followings.route('/', methods=['POST'])
 def post_route():

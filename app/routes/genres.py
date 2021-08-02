@@ -1,6 +1,5 @@
 from flask import Blueprint, jsonify, request
-from app.database.genre_api import get_genre_names, add_db_genre, delete_genres
-from app.database.genre_api import update_genres
+from app.database.genre_api import get_genre_names, add_db_genre, delete_genres, update_genres
 
 genres = Blueprint('genres', __name__, url_prefix='/genres')
 
@@ -13,7 +12,7 @@ def get_route():
     if isinstance(genre_names, str):
         return jsonify({'error': genre_names}), 500 
     else:
-        return genre_names
+        return jsonify(genre_names)
 
 @genres.route('/', methods=['POST'])
 def post_route():
@@ -47,5 +46,5 @@ def delete_route(genres_id):
     if res is True:
         return jsonify({'status':200})
     else:
-        return jsonify({'error':res})
+        return jsonify({'error':res}), 500
     

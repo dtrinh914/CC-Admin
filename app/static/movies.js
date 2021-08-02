@@ -2,6 +2,7 @@ const tableParams = {
     id: 'movies-table',
     className: 'admin-table',
     columnNames: ['movie_id', 'title', 'avg_review_score'],
+    title: 'Movies',
     route: '/movies/'
 }
 

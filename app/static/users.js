@@ -2,7 +2,9 @@ const tableParams = {
     id: 'users-table',
     className: 'admin-table',
     columnNames: ['user_id', 'date_created', 'username', 'password'],
-    route: '/users/'
+    title: 'Users',
+    route: '/users/',
+    filter: {by:'username', filterValue:''}
 }
 
 const formParams = {

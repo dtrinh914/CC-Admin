@@ -1,11 +1,17 @@
+import re
 from flask import Blueprint, jsonify, request
-from app.database.db_utils import get_users, add_user, edit_user, delete_user
+from app.database.db_utils import get_users, add_user, edit_user, delete_user, search_user
 
 users = Blueprint('users', __name__, url_prefix='/users')
 
 @users.route('/', methods=['GET'])
 def get_route():
-    data = get_users()
+
+    if request.args.get('q'):
+        search_str = request.args.get('q').replace('%20', ' ')
+        data = search_user(search_str)
+    else:
+        data = get_users()
 
     if isinstance(data, str):
         return jsonify({'error': data}), 500 
