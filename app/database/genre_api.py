@@ -59,8 +59,8 @@ def delete_subscribed_genres(id):
     """deletes subscribed genres row"""
     conn = db_connection.get_conn()
     cur = conn.cursor()
-
-    cur.execute(f'DELETE FROM subscribed_genres WHERE subscribed_id = {id}')
+    query = 'DELETE FROM subscribed_genres WHERE subscribed_id = ?'
+    cur.execute(query, (int(id), ))
     return True
 
 @db_connection.error_handler
