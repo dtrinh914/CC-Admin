@@ -1,18 +1,16 @@
 from flask import Blueprint, jsonify, request
-from app.database.reviews import get_reviews_api
 import app.database.reviews as r
 reviews = Blueprint('reviews', __name__, url_prefix='/reviews')
 
 
 @reviews.route('/', methods=['GET'])
 def get_route():
-
     reviews = r.get_reviews_api()
 
     if isinstance(reviews, str):
         return jsonify({'error': reviews}), 500 
     else:
-        return reviews
+        return jsonify(reviews)
 
 @reviews.route('/', methods=['POST'])
 def post_route():

@@ -1,146 +1,43 @@
-import os
-from dotenv.main import load_dotenv
-import requests
-from requests.models import Response
 from app.database import db_connection
-from dotenv import load_dotenv, find_dotenv
-import json
-from flask import session, jsonify
-load_dotenv(find_dotenv())
-api_key = os.environ.get("TMDB_APIKEY")
-host_name = 'https://api.themoviedb.org/3'
-
-
-
-
-def get_genre_list():
-    """gets current list of movie genres from TMDB
-        Returns list of dictionaries with keys: 'id' and 'name' """
-    
-    url = f'https://api.themoviedb.org/3/genre/movie/list?api_key={api_key}&language=en-US'
-
-    try:
-        # send get request to retrieve genre list
-        response = requests.get(url)
-        response = response.json()
-        
-        # list of genres with id 
-        genre_details = response['genres']
-        
-        return genre_details
-    except requests.exceptions.RequestException as e:
-        print(f'Error in retrieving data from {url}:{e}')
 
 @db_connection.error_handler
 def get_genre_names():
     """retrieves genre name data from genres database"""
     conn = db_connection.get_conn()
     cur = conn.cursor(dictionary=True)
-    query = (f'SELECT * FROM genres;')
+    query = ('SELECT * FROM genres ORDER BY genre_id')
     cur.execute(query)
     genre_names  = cur.fetchall()
-    genre_names = jsonify(genre_names)
     conn.close()
+
     return genre_names
+
 @db_connection.error_handler
 def add_db_genre(genre_name):
     """adds all genres to genre table"""
-    # genre_list = get_genre_list()
-    # genre_ids = {}
-    # genre_names = []
-
-    # for i in genre_list:
-    #     genre_ids[i['name']] = i['id']
-    #     genre_names.append(i['name'])
-
     conn = db_connection.get_conn()
     cur = conn.cursor()
-    #name = None
-    
-    #api add-on
-    cur.execute(f'insert into genres (genre_name) select "{genre_name}" where not exists (select * from genres where genre_name = "{genre_name}");')
-    #end
-    
-    #query = 'INSERT INTO genres (genre_name) VALUES (?)'
-    # fixed so it doesn't add duplicates.
-    # for name in genre_names:
-    #     cur.execute(f'insert into genres (genre_name) select "{name}" where not exists (select * from genres where genre_name = "{name}");')
-    #     #cur.execute(query, (name,))
-
+    query = 'INSERT into genres (genre_name) VALUES (?)'
+    cur.execute(query, (genre_name,))
     conn.close()
-
-    # if rowcount is equal return true
-    print(cur.rowcount)
     return True
-
-@db_connection.error_handler
-def get_subscribed_list():
-    """returns list of subscribed genres"""
-    conn = db_connection.get_conn()
-    cur = conn.cursor(dictionary=True)
-    query = (f'SELECT genre_id FROM subscribed_genres WHERE user_id = {session["user_id"]}')
-    cur.execute(query)
-    genre_ids = cur.fetchall()
-    id_list = []
-    for key in genre_ids:
-        id_list.append(key['genre_id'])
-    
-    # now get list of genre names that are subscribed
-    genre_names = []
-
-    for id in id_list:
-        cur.execute(f'SELECT genre_name from genres where genre_id ={id}')
-        current_id = cur.fetchone()
-        genre_names.append(current_id['genre_name'])
-
-    conn.close()
-    
-    return genre_names
 
 @db_connection.error_handler
 def add_genre_subscribe(genre_id, user_id):  
-    # query = (f'INSERT INTO subscribed_genres (user_id, genre_id)\n'
-    # f'values ((SELECT user_id FROM users WHERE username ="{username}"),\n'
-    # f'(SELECT genre_id FROM genres WHERE genre_name ="{genre_name}"))')
-    
-    query = (f'INSERT INTO subscribed_genres (user_id, genre_id)\n'
-    f'values ((SELECT user_id FROM users WHERE user_id ={user_id}),\n'
-    f'(SELECT genre_id FROM genres WHERE genre_id ={genre_id}))')
-
     conn = db_connection.get_conn()
     cur = conn.cursor()
-    print(cur.rowcount)
-    cur.execute(query) 
-
-    print(cur.rowcount)
+    query = 'INSERT INTO subscribed_genres (genre_id, user_id) VALUES (?,?)'
+    cur.execute(query, (int(genre_id), int(user_id))) 
     conn.close()
     return True
-
-    # INSERT INTO subscribed_genres (user_id, genre_id) 
-    # values ((SELECT user_id FROM users 
-    # WHERE username = 'jesse'),
-    # (SELECT genre_id FROM genres WHERE genre_name = 'Drama'));
-
-@db_connection.error_handler
-def remove_genre_subscribe(name):
-    """removes subscribed genre"""
-    conn = db_connection.get_conn()
-    cur = conn.cursor()
-
-    for genre in name:
-        cur.execute(f'DELETE from subscribed_genres WHERE genre_id\n'
-        f'=(SELECT genre_id FROM genres where genre_name = "{genre}")\n'
-        f'AND user_id = {session["user_id"]}')
-    conn.close()
-    return False
 
 @db_connection.error_handler
 def delete_genres(id):
     """deletes from genres list"""
     conn = db_connection.get_conn()
     cur = conn.cursor()
-
-    cur.execute(f'DELETE FROM genres WHERE genre_id = {id}')
+    query = 'DELETE FROM genres WHERE genre_id = ?'
+    cur.execute(query, (int(id), ))
     conn.close()
 
     return True
@@ -164,7 +61,6 @@ def delete_subscribed_genres(id):
     cur = conn.cursor()
 
     cur.execute(f'DELETE FROM subscribed_genres WHERE subscribed_id = {id}')
-    print(cur.rowcount)
     return True
 
 @db_connection.error_handler
@@ -175,9 +71,8 @@ def update_subscribed_genres(user_id, genre_id, subscribed_id):
     cur = conn.cursor()
     query = ('UPDATE subscribed_genres SET user_id=?, genre_id=?\n'
                 'WHERE subscribed_id =?')
-    cur.execute(query, (user_id, genre_id, subscribed_id))
+    cur.execute(query, (int(user_id), int(genre_id), int(subscribed_id)))
     conn.close()
-    print(cur.rowcount)
 
     return True
 
@@ -187,22 +82,15 @@ def get_subscribed_genres():
 
     conn = db_connection.get_conn()
     cur = conn.cursor(dictionary=True)
-    query =     ('SELECT subscribed_id, users.username as username, genres.genre_name as genre_name\n'
-    'FROM subscribed_genres\n'
-    'inner JOIN users ON subscribed_genres.user_id\n'
-    'inner JOIN genres ON subscribed_genres.genre_id\n'
-    'WHERE users.user_id = subscribed_genres.user_id AND\n'
-    'genres.genre_id = subscribed_genres.genre_id')
+    query = ('SELECT subscribed_id, users.user_id as user_id, genres.genre_id as genre_id,\n'
+            'users.username as username, genres.genre_name as genre_name\n'
+            'FROM subscribed_genres\n'
+            'JOIN users ON subscribed_genres.user_id = users.user_id\n'
+            'JOIN genres ON subscribed_genres.genre_id = genres.genre_id\n'
+            'ORDER BY subscribed_id'
+            )
     cur.execute(query)
     res = cur.fetchall()
     conn.close()
 
-    return jsonify(res)
-    
-
-    'SELECT subscribed_id, users.username as username, genres.genre_name as genre_name\n'
-    'FROM subscribed_genres\n'
-    'inner JOIN users ON subscribed_genres.user_id\n'
-    'inner JOIN genres ON subscribed_genres.genre_id\n'
-    'WHERE users.user_id = subscribed_genres.user_id AND\n'
-    'genres.genre_id = subscribed_genres.genre_id'
+    return res

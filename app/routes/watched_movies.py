@@ -44,4 +44,4 @@ def delete_route(watched_id):
     if res is True:
         return jsonify({'status':200})
     else:
-        return jsonify({'error':res})
+        return jsonify({'error':res}), 500

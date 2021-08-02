@@ -1,16 +1,4 @@
-import os
-from dotenv.main import load_dotenv
-import requests
-from requests.models import Response
 from app.database import db_connection
-from dotenv import load_dotenv, find_dotenv
-import json
-from flask import session, jsonify
-load_dotenv(find_dotenv())
-api_key = os.environ.get("TMDB_APIKEY")
-host_name = 'https://api.themoviedb.org/3'
-
-
 
 @db_connection.error_handler
 def get_reviews_api():
@@ -18,19 +6,18 @@ def get_reviews_api():
     conn = db_connection.get_conn()
     cur = conn.cursor(dictionary = True)
     query = (
-            'SELECT reviews.review_id as review_id, reviews.date_created as\n'
-            'data_created, users.username as author_name\n'
+            'SELECT reviews.review_id as review_id, reviews.date_created as data_created,\n'
+            'users.user_id as author_id, movies.movie_id as movie_id,\n'
+            'users.username as author_name\n'
             ', movies.title as movie_title, reviews.review_text as review_text,\n'
             'reviews.review_score as review_score\n'
             'FROM reviews\n'
-            'INNER JOIN users ON reviews.author_id\n'
-            'INNER JOIN movies ON reviews.movie_id\n'
-            'WHERE users.user_id = reviews.author_id AND\n'
-            'movies.movie_id = reviews.movie_id\n')
-    
+            'LEFT JOIN users ON reviews.author_id = users.user_id \n'
+            'JOIN movies ON reviews.movie_id = movies.movie_id'
+            )
+            
     cur.execute(query)
     review_list = cur.fetchall()
-    review_list = jsonify(review_list)
     conn.close()
 
     return review_list

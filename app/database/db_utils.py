@@ -25,11 +25,11 @@ def create_tables():
     create_reviews = """CREATE TABLE IF NOT EXISTS reviews(
                             review_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
                             date_created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                            author_id INT,
+                            author_id INT DEFAULT NULL,
                             movie_id INT NOT NULL,
                             review_text VARCHAR(2000) NOT NULL,
                             review_score INT NOT NULL,
-                            FOREIGN KEY (author_id) REFERENCES users(user_id) ON DELETE CASCADE,
+                            FOREIGN KEY (author_id) REFERENCES users(user_id) ON DELETE SET NULL,
                             FOREIGN KEY (movie_id) REFERENCES movies(movie_id) ON DELETE CASCADE
                     )"""
 
@@ -56,7 +56,7 @@ def create_tables():
 
     create_genres = """CREATE TABLE IF NOT EXISTS genres(
                             genre_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-                            genre_name VARCHAR(255) NOT NULL
+                            genre_name VARCHAR(255) UNIQUE NOT NULL
                     )"""
     
     create_subscribed_genres = """CREATE TABLE IF NOT EXISTS subscribed_genres(
