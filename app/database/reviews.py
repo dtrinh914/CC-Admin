@@ -64,7 +64,7 @@ def edit_reviews(review_id:int,author_id:int, movie_id:int, review_text, review_
 
 @db_connection.error_handler
 def delete_reviews(review_id: int) -> bool:
-    """Delete review data"""
+    """Delete review database info"""
 
     conn = db_connection.get_conn()
     cur = conn.cursor()
