@@ -94,8 +94,7 @@ def get_watched_movies():
 def add_watched_movies(user_id, movie_id):
     """adds watched movie using user_id and movie_id"""
 
-    query = ('INSERT INTO watched_movies movie_id, user_id\n'
-            ' VALUES (?,?)')
+    query = ('INSERT INTO watched_movies (movie_id, user_id) VALUES (?,?)')
     conn = db_connection.get_conn()
     cur = conn.cursor(dictionary = True)
     

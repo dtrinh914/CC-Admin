@@ -30,7 +30,8 @@ def create_tables():
                             review_text VARCHAR(2000) NOT NULL,
                             review_score INT NOT NULL,
                             FOREIGN KEY (author_id) REFERENCES users(user_id) ON DELETE SET NULL,
-                            FOREIGN KEY (movie_id) REFERENCES movies(movie_id) ON DELETE CASCADE
+                            FOREIGN KEY (movie_id) REFERENCES movies(movie_id) ON DELETE CASCADE,
+                            UNIQUE relationship (author_id, movie_id)
                     )"""
 
     create_watched_movies = """CREATE TABLE IF NOT EXISTS watched_movies(
